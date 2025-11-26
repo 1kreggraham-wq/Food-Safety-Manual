@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Food Safety Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Calm Harmony (Stone, Emerald, Red, Blue, Orange) -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        .nav-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-button.active {
+            background-color: #059669; /* emerald-600 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .nav-button:not(.active):hover {
+            background-color: #f5f5f4; /* stone-100 */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .accordion-content {
+            display: none;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <header class="bg-white shadow-md w-full p-4">
+        <h1 class="text-2xl md:text-3xl font-bold text-center text-emerald-800">Oak Bay Beach Hotel Culinary Food Safety Guide</h1>
+        <p class="text-center text-stone-600">The Chef's Daily Interactive Reference</p>
+    </header>
+
+    <nav class="sticky top-0 z-10 bg-white shadow-lg p-2.5">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-center gap-2">
+            <button id="nav-hygiene" class="nav-button active text-sm md:text-base font-semibold py-2 px-3 md:px-4 rounded-full" data-page="page-hygiene">
+                🧼 Personal Hygiene
+            </button>
+            <button id="nav-temp" class="nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-4 rounded-full" data-page="page-temp">
+                🌡️ Temp Control
+            </button>
+            <button id="nav-contamination" class="nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-4 rounded-full" data-page="page-contamination">
+                🚫 Contamination
+            </button>
+            <button id="nav-allergens" class="nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-4 rounded-full" data-page="page-allergens">
+                🥜 Allergen Safety
+            </button>
+            <button id="nav-essentials" class="nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-4 rounded-full" data-page="page-essentials">
+                📜 BC Essentials
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8">
+
+        <!-- ===== PAGE: PERSONAL HYGIENE ===== -->
+        <section id="page-hygiene" class="content-page space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-4">Section 1: Personal Responsibility (CLEAN)</h2>
+                <p class="text-stone-700">This section covers the most important rules for every team member. Personal hygiene is the first line of defense against foodborne illness. These are non-negotiable standards for our luxury environment.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Handwashing -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4">Rule 1: Always Wash Your Hands</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-semibold text-emerald-700">When You MUST Wash:</h4>
+                            <ul class="list-disc list-outside pl-5 mt-2 space-y-1 text-sm">
+                                <li>**Immediately:** After using the restroom.</li>
+                                <li>**Before:** Starting work, putting on gloves, touching ready-to-eat food.</li>
+                                <li>**After:** Handling raw meat/fish, garbage, or touching your hair, face, or phone.</li>
+                                <li>**Between:** Switching tasks.</li>
+                                <li>**Before:** Tasting food (use a clean spoon every time).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-emerald-700">The 20-Second Method:</h4>
+                            <ol class="list-decimal list-outside pl-5 mt-2 space-y-1 text-sm">
+                                <li>Wet hands and arms with hot running water.</li>
+                                <li>Apply soap and lather thoroughly (up to elbows).</li>
+                                <li>Scrub for **20 seconds**.</li>
+                                <li>Rinse completely.</li>
+                                <li>Dry using a single-use paper towel.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Illness & Attire -->
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold mb-3">Rule 2: Report Illness</h3>
+                        <p class="text-red-700 font-semibold">If you have vomiting, diarrhea, or a fever, DO NOT come to work.</p>
+                        <ul class="list-disc list-outside pl-5 mt-2 space-y-1">
+                            <li>You must be symptom-free for at least **48 hours** (BC Health requirement).</li>
+                            <li>Tell your Sous Chef immediately if you feel sick during your shift.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold mb-3">Rule 3: Appearance & Attire</h3>
+                        <ul class="list-disc list-outside pl-5 mt-2 space-y-1">
+                            <li>Wear a **clean uniform, apron, and hat/hairnet** every day.</li>
+                            <li>No jewelry (except a plain wedding band).</li>
+                            <li>No false nails or nail polish (they harbor bacteria).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PAGE: TEMPERATURE CONTROL ===== -->
+        <section id="page-temp" class="content-page hidden space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-4">Section 2: Temperature Control (COOK & CHILL)</h2>
+                <p class="text-stone-700">Temperature is the single most effective tool we have to control bacteria. This section covers all critical temperatures, from receiving to serving. Our goal is to keep food out of the "Danger Zone" as much as possible.</p>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold text-center mb-4">The Temperature Danger Zone</h3>
+                <div class="w-full max-w-lg mx-auto">
+                    <div class="flex flex-col-reverse md:flex-row justify-center items-center md:items-stretch h-[250px] md:h-[100px]">
+                        <div class="w-full md:w-1/3 text-center p-4 bg-blue-500 text-white rounded-b-lg md:rounded-l-lg md:rounded-r-none">
+                            <span class="font-bold block">Safe Cold Zone</span>
+                            <span>Below 4&deg;C (40&deg;F)</span>
+                        </div>
+                        <div class="w-full md:w-1/3 text-center p-4 bg-red-600 text-white font-bold">
+                            <span class="font-bold block text-lg">DANGER ZONE</span>
+                            <span>4&deg;C to 60&deg;C</span>
+                        </div>
+                        <div class="w-full md:w-1/3 text-center p-4 bg-orange-500 text-white rounded-t-lg md:rounded-r-lg md:rounded-l-none">
+                            <span class="font-bold block">Safe Hot Zone</span>
+                            <span>Above 60&deg;C (140&deg;F)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cooking Temps -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">Minimum Internal Cooking Temperatures</h3>
+                <p class="text-stone-600 mb-4">Use a calibrated probe thermometer to check the thickest part of the food.</p>
+                <div class="chart-container">
+                    <canvas id="cookingTempsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Cooling Protocol -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">Rapid Cooling Protocol (Max 6 Hours)</h3>
+                <p class="text-stone-600 mb-6">Never put large, hot containers directly into the cooler. Use shallow metal pans, ice baths, or a blast chiller.</p>
+                <div class="flex flex-col md:flex-row justify-between gap-4">
+                    <!-- Step 1 -->
+                    <div class="flex-1 text-center p-4 border-2 border-orange-400 border-dashed rounded-lg">
+                        <div class="text-2xl font-bold text-orange-600">Step 1: First 2 Hours</div>
+                        <p class="text-lg mt-2">Cool from 60&deg;C (140&deg;F) down to 20&deg;C (70&deg;F).</p>
+                        <p class="font-bold text-red-600 mt-1">This is the most critical stage.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="flex-1 text-center p-4 border-2 border-blue-400 border-dashed rounded-lg">
+                        <div class="text-2xl font-bold text-blue-600">Step 2: Next 4 Hours</div>
+                        <p class="text-lg mt-2">Cool from 20&deg;C (70&deg;F) down to 4&deg;C (40&deg;F).</p>
+                    </div>
+                </div>
+                <div class="mt-4 p-4 bg-red-100 text-red-800 rounded-lg">
+                    <strong>Failure Rule:</strong> If you miss these times, the food **must be thrown away** (or reheated once to 74&deg;C and restarted).
+                </div>
+            </div>
+
+            <!-- Receiving & Storage -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-3">Receiving & Storage</h3>
+                    <ul class="list-disc list-outside pl-5 space-y-2">
+                        <li>**Receiving:** Cold food must arrive at or below **4&deg;C (40&deg;F)**. Frozen food must be solid. Log all temps.</li>
+                        <li>**Refrigeration:** All coolers must keep food at or below **4&deg;C (40&deg;F)**. Log temps twice daily.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-3">Hot Holding</h3>
+                     <ul class="list-disc list-outside pl-5 space-y-2">
+                        <li>**Buffets & Pass:** Food must be held at or above **60&deg;C (140&deg;F)**.</li>
+                        <li>**Action:** Check and log temperatures every **2 hours**.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Dishwasher/Chemical Section update (moved from Contamination page for temp focus) -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-3">Dishwasher Sanitization Temp</h3>
+                <p>The machine must reach a final rinse temperature of at least **77&deg;C (171&deg;F)** to guarantee sanitization.</p>
+            </div>
+        </section>
+        
+        <!-- ===== PAGE: CONTAMINATION ===== -->
+        <section id="page-contamination" class="content-page hidden space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-4">Section 3: Preventing Contamination (CROSS-CONTAMINATION)</h2>
+                <p class="text-stone-700">Cross-contamination is when bacteria from one food (like raw chicken) transfers to another (like fresh lettuce). This section details the critical rules for separation and cleaning to prevent this.</p>
+            </div>
+
+            <!-- Raw Food Separation -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">Rule 1: Raw Food Separation</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Storage: Bottoms Up!</h4>
+                        <p>In the cooler, store raw meat, poultry, and fish on the **lowest shelves**. This prevents juices from dripping onto ready-to-eat (RTE) food.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Cutting Board Color Code</h4>
+                        <div class="space-y-2 mt-2">
+                            <div class="flex items-center p-3 bg-red-600 text-white rounded-md">
+                                <span class="text-2xl mr-3">🥩</span>
+                                <strong>RED:</strong> Raw Meat/Poultry/Fish
+                            </div>
+                            <div class="flex items-center p-3 bg-green-600 text-white rounded-md">
+                                <span class="text-2xl mr-3">🥦</span>
+                                <strong>GREEN:</strong> Fruits & Vegetables
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-100 text-black border border-gray-300 rounded-md">
+                                <span class="text-2xl mr-3">🍞</span>
+                                <strong>WHITE:</strong> Ready-to-Eat (Bread, Cheese)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cleaning -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">Rule 2: Cleaning and Sanitizing</h3>
+                <p class="text-stone-600 mb-4">**Cleaning** removes food and dirt. **Sanitizing** kills bacteria. You MUST do both.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">3-Sink Setup</h4>
+                        <ol class="list-decimal list-outside pl-5 space-y-1">
+                            <li><strong>WASH</strong> (Hot, soapy water)</li>
+                            <li><strong>RINSE</strong> (Clear, hot water)</li>
+                            <li><strong>SANITIZE</strong> (Approved chemical solution)</li>
+                        </ol>
+                        <p class="mt-2 text-sm font-semibold">Use test strips to check sanitizer concentration daily.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Chemical Storage</h4>
+                        <p class="text-red-700 font-semibold">Store ALL chemicals away from and below food and prep areas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PAGE: ALLERGENS ===== -->
+        <section id="page-allergens" class="content-page hidden space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-4">Section 4: Allergen Safety</h2>
+                <p class="text-stone-700">For our luxury guests, allergy management is a critical part of safety and service. We treat every allergy with the highest level of care. There are no shortcuts.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">Our 4-Step Allergy Protocol</h3>
+                <ol class="list-decimal list-outside pl-6 space-y-4">
+                    <li class="pl-2">
+                        <strong class="text-lg">Check the Ticket:</strong> When a ticket is flagged for an allergy, **read it twice** and verbally confirm the allergy with the Sous Chef.
+                    </li>
+                    <li class="pl-2">
+                        <strong class="text-lg">Clean Setup:</strong> Clear your workstation. Use fresh, clean, and **dedicated** utensils, cutting boards, and pans.
+                    </li>
+                    <li class="pl-2">
+                        <strong class="text-lg">Separate Ingredients:</strong> Only use ingredients verified as safe and stored in their original, sealed containers. Prevent all cross-contact.
+                    </li>
+                    <li class="pl-2">
+                        <strong class="text-lg">Final Check:</strong> Use a designated, clean plate and have the Sous Chef or Exec Chef verify the finished dish before it leaves the kitchen.
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ===== PAGE: BC ESSENTIALS ===== -->
+        <section id="page-essentials" class="content-page hidden space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-4">Section 5: BC Regulatory Essentials</h2>
+                <p class="text-stone-700">This section covers our specific legal responsibilities under British Columbia's regulations. This includes our required training, our legal logging (due diligence), and how to handle emergencies.</p>
+            </div>
+
+            <!-- Training & Logging -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-3">Required Training</h3>
+                    <p class="font-semibold text-emerald-700">FOODSAFE Level 1 Certification</p>
+                    <p>As per BC law, at least **one employee with a valid FOODSAFE Level 1** certificate must be present in the kitchen during all hours of operation.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-3">Crisis: Loss of Power</h3>
+                    <ol class="list-decimal list-outside pl-5 space-y-1">
+                        <li>Stop everything.</li>
+                        <li>Keep all fridge/freezer doors **closed**.</li>
+                        <li>Chef monitors and logs internal temps every 4 hours.</li>
+                        <li class="font-semibold text-red-700">Dispose of any cold food held above 4&deg;C for over 4 hours.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Logging -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">Logging & Record Keeping (Your Legal Proof)</h3>
+                <p class="text-stone-600 mb-4">Accurate logs are our legal proof ("Due diligence") that we follow the rules. Click each log to see details.</p>
+                <div class="space-y-2" id="accordion-container">
+                    
+                    <button class="accordion-button w-full text-left font-semibold p-4 bg-stone-100 hover:bg-stone-200 rounded-lg flex justify-between items-center">
+                        Daily Fridge/Freezer Log
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content px-4 pb-4">
+                        <p><strong>When:</strong> Twice a day (Morning & Evening).</p>
+                        <p><strong>Why:</strong> Shows us if equipment is failing before food spoils.</p>
+                    </div>
+                    
+                    <button class="accordion-button w-full text-left font-semibold p-4 bg-stone-100 hover:bg-stone-200 rounded-lg flex justify-between items-center">
+                        Cooking & Reheating Log
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content px-4 pb-4">
+                        <p><strong>When:</strong> Every time we cook or reheat large batches of food.</p>
+                        <p><strong>Why:</strong> Proof that we destroyed harmful bacteria.</p>
+                    </div>
+
+                    <button class="accordion-button w-full text-left font-semibold p-4 bg-stone-100 hover:bg-stone-200 rounded-lg flex justify-between items-center">
+                        Cooling Log
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content px-4 pb-4">
+                        <p><strong>When:</strong> Every time we rapidly cool soup, sauce, etc.</p>
+                        <p><strong>Why:</strong> Proof that we moved food quickly through the Danger Zone.</p>
+                    </div>
+
+                    <button class="accordion-button w-full text-left font-semibold p-4 bg-stone-100 hover:bg-stone-200 rounded-lg flex justify-between items-center">
+                        Receiving Log
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content px-4 pb-4">
+                        <p><strong>When:</strong> When receiving every order.</p>
+                        <p><strong>Why:</strong> Proof that we only accept safe food from approved suppliers.</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="text-center p-4 mt-8 text-stone-500 text-sm">
+        <p>&copy; 2025 Oak Bay Beach Hotel Culinary Department. Always serve with safety and excellence.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navButtons = document.querySelectorAll('.nav-button');
+            const contentPages = document.querySelectorAll('.content-page');
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+
+            function showPage(pageId) {
+                contentPages.forEach(page => {
+                    page.classList.add('hidden');
+                });
+                
+                navButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.remove('hidden');
+                }
+                
+                const activeButton = document.querySelector(`[data-page="${pageId}"]`);
+                if (activeButton) {
+                    activeButton.classList.add('active');
+                }
+            }
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const pageId = button.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('.accordion-icon');
+                    
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                        icon.textContent = '+';
+                    } else {
+                        content.style.display = "block";
+                        icon.textContent = '−';
+                    }
+                });
+            });
+
+            function initCookingTempChart() {
+                const ctx = document.getElementById('cookingTempsChart').getContext('2d');
+                if (window.myCookingChart) {
+                    window.myCookingChart.destroy();
+                }
+                window.myCookingChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'Poultry & Reheating', 
+                            'Ground Meats', 
+                            'Fish', 
+                            'Whole Cuts (Beef, Lamb)'
+                        ],
+                        datasets: [{
+                            label: 'Minimum Internal Temp (&deg;C)',
+                            data: [74, 71, 70, 63],
+                            backgroundColor: [
+                                'rgba(220, 38, 38, 0.6)', 
+                                'rgba(234, 88, 12, 0.6)', 
+                                'rgba(37, 99, 235, 0.6)', 
+                                'rgba(139, 92, 246, 0.6)' 
+                            ],
+                            borderColor: [
+                                'rgba(220, 38, 38, 1)',
+                                'rgba(234, 88, 12, 1)',
+                                'rgba(37, 99, 235, 1)',
+                                'rgba(139, 92, 246, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'x',
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                min: 50,
+                                title: {
+                                    display: true,
+                                    text: 'Temperature (&deg;C)' // Corrected here
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.label}: ${context.raw}&deg;C for 15 seconds`; // Corrected here
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            initCookingTempChart();
+            showPage('page-hygiene'); 
+        });
+    </script>
+</body>
+</html>
